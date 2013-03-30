@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Parsing (AOKP) Gerrit query responses (JSON) with PHP and jQuery</title>
+	<link rel="stylesheet" href="aokp-gerrit.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+
+		// Extend jQuery to parse the query string/URL
+		// credit: http://paulgueller.com/2011/04/26/parse-the-querystring-with-jquery/
+		//
+		jQuery.extend({
+		  parseQuerystring: function(){
+			var nvpair = {};
+			var qs = window.location.search.replace('?', '');
+			var pairs = qs.split('&');
+			$.each(pairs, function(i, v){
+			  var pair = v.split('=');
+			  nvpair[pair[0]] = pair[1];
+			});
+			return nvpair;
+		  }
+		});
+
+		// Open Gerrit (rel=external) links in a new window/tab
+		//
+		$('a[rel*="external"]').click(function(){
+			$(this).attr('target','_blank');
+		});
+		
+	</script>
+</head>
+
+<body>
+
+<h1>AOKP &raquo; Latest Gerrit merges</h1>
+<h2>*Protip* - Use the query string of "?limit=N" to restrict the number of records returned<br>(example: <a href="?limit=5">5 records</a> | <a href="?limit=10">10 records</a> | <a href="?limit=20">20 records</a> | <a href="?limit=500">ALL records</a>)</h2>
+
+<div id="content"></div>
+
+<h2>Built by George Merlocco (full post @ <a rel="external" href="http://george.merloc.co/blog/parsing-multiple-json-objects-from-gerrit-using-php-and-jquery">george.merloc.co</a>)</h2>
+
+<script>
+
+	var qs = jQuery.parseQuerystring().limit;
+
+	$.getJSON('response/aokp-gerrit-merged.json', function(data) {
+		var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		var table='<table class=\'table-striped\'><tr><th>#</th><th>Project</th><th>Branch</th><th>Subject</th><th>Date</th></tr>';
+
+		/* loop over each object in the array to create rows*/
+		$.each( data.slice(0, qs), function( index, item){
+			var cleanDate = new Date(item.lastUpdated*1000);
+			var date = cleanDate.getDate();
+			var month = months[cleanDate.getMonth()];
+			table+='<tr><td>'+item.number+'</td><td>'+item.project+'</td><td>'+item.branch+'</td><td><a rel=\"external\" href=\"'+item.url+'">'+item.subject+'</a></td><td>'+month+date+'</td></tr>';
+		});
+		table+='</table>';
+		$("#content").html(table);
+	});
+	
+</script>
+
+</body>
+</html>
