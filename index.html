@@ -25,19 +25,18 @@
 
 		// Open Gerrit (rel=external) links in a new window/tab
 
-        // Javascript Open in New Window (validation workaround)
-        //
-        function externalLinks() {
-         if (!document.getElementsByTagName) return;
-         var anchors = document.getElementsByTagName("a");
-         for (var i=0; i<anchors.length; i++) {
-           var anchor = anchors[i];
-           if (anchor.getAttribute("href") &&
-               anchor.getAttribute("rel") == "external")
-             anchor.target = "_blank";
-         }
-        }		
-        
+        $(document).ready(function() {
+            $('a[rel^="external"]').click( function() {
+                    window.open( $(this).attr('href') );
+                    return false;
+            });
+            // turn "external" classes into new window popups
+            $('a.external').click( function() {
+                    window.open( $(this).attr('href') );
+                    return false;
+            });
+        });
+		
 	</script>
 
 </head>
@@ -68,15 +67,13 @@
 		});
 		table+='</table>';
 		$("#content").html(table);
+        $('a[rel^="external"]').click( function() {
+                window.open( $(this).attr('href') );
+                return false;
+        });
 	});
 	
 </script>
 
-<script>
-    $(document).ready(function() {
-        externalLinks();
-    });
-</script>
-    
 </body>
 </html>
