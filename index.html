@@ -24,12 +24,22 @@
 		});
 
 		// Open Gerrit (rel=external) links in a new window/tab
-		//
-		$('a').click(function(){
-			$(this).attr('target','_blank');
-		});
-		
+
+        // Javascript Open in New Window (validation workaround)
+        //
+        function externalLinks() {
+         if (!document.getElementsByTagName) return;
+         var anchors = document.getElementsByTagName("a");
+         for (var i=0; i<anchors.length; i++) {
+           var anchor = anchors[i];
+           if (anchor.getAttribute("href") &&
+               anchor.getAttribute("rel") == "external")
+             anchor.target = "_blank";
+         }
+        }		
+        
 	</script>
+
 </head>
 
 <body>
@@ -54,7 +64,7 @@
 			var cleanDate = new Date(item.lastUpdated*1000);
 			var date = cleanDate.getDate();
 			var month = months[cleanDate.getMonth()];
-			table+='<tr><td>'+item.number+'</td><td>'+item.project+'</td><td>'+item.branch+'</td><td><a rel=\"external\" href=\"'+item.url+'">'+item.subject+'</a></td><td>'+month+date+'</td></tr>';
+			table+='<tr><td>'+item.number+'</td><td>'+item.project+'</td><td>'+item.branch+'</td><td><a rel=\"external\" href=\"'+item.url+'">'+item.subject+'</a></td><td>'+month+' '+date+'</td></tr>';
 		});
 		table+='</table>';
 		$("#content").html(table);
@@ -62,5 +72,11 @@
 	
 </script>
 
+<script>
+    $(document).ready(function() {
+        externalLinks();
+    });
+</script>
+    
 </body>
 </html>
