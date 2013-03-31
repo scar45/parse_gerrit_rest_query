@@ -25,7 +25,7 @@
 
 		// Open Gerrit (rel=external) links in a new window/tab
 		//
-		$('a[rel*="external"]').click(function(){
+		$('a').click(function(){
 			$(this).attr('target','_blank');
 		});
 		
@@ -34,12 +34,12 @@
 
 <body>
 
-<h1>AOKP &raquo; Latest Gerrit merges</h1>
+<h1>AOKP &raquo; Latest <a rel="external" href="http://gerrit.sudoservers.com/#/q/status:merged,n,z">Gerrit</a> merges</h1>
 <h2>*Protip* - Use the query string of "?limit=N" to restrict the number of records returned<br>(example: <a href="?limit=5">5 records</a> | <a href="?limit=10">10 records</a> | <a href="?limit=20">20 records</a> | <a href="?limit=500">ALL records</a>)</h2>
 
 <div id="content"></div>
 
-<h2>Built by George Merlocco<br>(full post @ <a rel="external" href="http://george.merloc.co/blog/parsing-multiple-json-objects-from-gerrit-using-php-and-jquery">george.merloc.co</a> | source @ <a rel="external" href="https://github.com/scar45/parse_gerrit_rest_query">Github</a>)</h2>
+<h2>Built by George Merlocco (@scar45)<br>(full post @ <a rel="external" href="http://george.merloc.co/blog/parsing-multiple-json-objects-from-gerrit-using-php-and-jquery">george.merloc.co</a> | source @ <a rel="external" href="https://github.com/scar45/parse_gerrit_rest_query">Github</a>)</h2>
 
 <script>
 
