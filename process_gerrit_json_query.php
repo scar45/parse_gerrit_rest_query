@@ -6,7 +6,7 @@
 
 // Download the (invalid) JSON format from Gerrit query function
 
-$sJson = file_get_contents('http://gerrit.sudoservers.com/query?format=JSON&q=status:merged');
+$sJson = file_get_contents('http://gerrit.aokp.co/query?format=JSON&q=status:merged');
 
 
 // Write response to file (allows for jQuery to access the data - cross-domain workaround)
